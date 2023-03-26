@@ -1,0 +1,97 @@
+@isset($pageConfigs)
+  {!! Helper::updatePageConfig($pageConfigs) !!}
+@endisset
+
+<!DOCTYPE html>
+@php $configData = Helper::applClasses(); @endphp
+
+<html class="loading {{ $configData['theme'] === 'light' ? '' : $configData['layoutTheme'] }}"
+  lang="@if (session()->has('locale')){{ session()->get('locale') }}@else{{ $configData['defaultLanguage'] }}@endif" data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}"
+  @if ($configData['theme'] === 'dark') data-layout="dark-layout"@endif>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="description"
+    content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+  <meta name="keywords"
+    content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+  <meta name="author" content="PIXINVENT">
+  <title>@yield('title') - SISTEM INFORMASI PT. SELIM ELEKTRO</title>
+  <link rel="apple-touch-icon" href="{{ asset('images/logo/logo.ico') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo/logo.ico') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+    rel="stylesheet">
+
+  {{-- Include core + vendor Styles --}}
+  @include('panels/styles')
+
+  {{-- Include core + vendor Styles --}}
+  @include('panels/styles')
+</head>
+
+
+
+<body
+  class="vertical-layout vertical-menu-modern {{ $configData['bodyClass'] }} {{ $configData['theme'] === 'dark' ? 'dark-layout' : '' }} {{ $configData['blankPageClass'] }} blank-page"
+  data-menu="vertical-menu-modern" data-col="blank-page" data-framework="laravel"
+  data-asset-path="{{ asset('/') }}">
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content {{ $configData['pageClass'] }}">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+      <a class="navbar-brand" href="#">
+        <img src="{{asset('images/logo/logo.png')}}" width="30" height="30" class="d-inline-block align-top" alt="">
+        SISLASDU
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{route('dashboard-home')}}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('dashboard-informasi')}}">Informasi Desa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('dashboard-login')}}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('dashboard-register')}}">Register</a>
+          </li>
+        </ul>
+      </div>
+    </nav>    
+    <div class="content-wrapper">
+      <div class="content-body">
+
+        {{-- Include Startkit Content --}}
+        @yield('content')
+      </div>
+    </div>
+  </div>
+  <!-- End: Content-->
+  @include('layouts.footer')
+  {{-- include default scripts --}}
+  @include('panels/scripts')
+
+  <script type="text/javascript">
+    $(window).on('load', function() {
+      if (feather) {
+        feather.replace({
+          width: 14,
+          height: 14
+        });
+      }
+    })
+  </script>
+
+</body>
+
+</html>
