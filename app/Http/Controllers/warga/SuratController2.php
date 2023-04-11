@@ -4,14 +4,17 @@ namespace App\Http\Controllers\warga;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisSurat;
+use App\Models\Rt;
 use App\Models\Rw;
 use App\Models\surat;
 use App\Models\User;
+use App\Models\Warga;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class SuratController2 extends Controller
@@ -54,6 +57,7 @@ class SuratController2 extends Controller
     $months=Carbon::now()->shortMonthName;
     $last=surat::whereRaw('MONTH(created_at) = '.$month)->count()+1;
     $kode = str_pad($last, 3, '0', STR_PAD_LEFT).'/'.$day.'-'.$months.'/'.$request->id_jenissurat.'/'.$year;
+    
     $user = surat::updateOrCreate([
         'id' => $request->id
     ], [
@@ -76,14 +80,33 @@ class SuratController2 extends Controller
     ]);
     if($request->id){
       if($user){
-        session()->flash('success', 'Data Berhasil Diubah.');
-        //redirect
+        
+            session()->flash('success', 'Data Berhasil Diubah.');
       }
+            //redirect
     }else{
-      if($user){
-        session()->flash('success', 'Data Berhasil Ditambah.');
-        //redirect
-      }
+        if($user){
+          $jenis = JenisSurat::where('kode','=',$user->id_jenissurat)->first();
+          $rt = Warga::where('wargas.id_users','=',$user->id_users)->join('rts','rts.rt','=','wargas.rt')->select('wargas.rt','rts.email')->first();
+          
+          $r = explode('/',$rt->rt);
+          $rw = Rw::where('rw','=',$r[1])->first();
+          $details = [
+            'title' => 'Pengajuan Surat Baru',
+            'nama' => $user->nama,
+            'nik' => $user->nik,
+            'jenis' => $jenis->nama
+          ];
+          $emails = [$rt->email, $rw->email];
+          foreach ($emails as $email) {
+            Mail::send('mail.notifMail', ['nama' => $user->nama, 'email' => '$email', 'title' => 'Pengajuan Surat Baru', 'details' => $details,'nik'=>$user->nik,'jenis'=>$jenis->nama,'rt'=>$rt->rt], function ($message) use ($email) {
+              $message->to($email)->subject('Pengajuan Surat Baru');
+            });
+          }
+            //dd($emails);
+            session()->flash('success', 'Data Berhasil Ditambah.');
+            //redirect
+        }
     }
     return redirect()->route('surat-warga');
   }
@@ -131,6 +154,9 @@ class SuratController2 extends Controller
         case 'SK-PRT':
             $layout='layouts.warga.cetak_pengantar';
             break;
+        case 'SK-CK':
+            $layout='layouts.warga.cetak_pengantar';
+            break;
         default:
             # code...
             break;
@@ -140,5 +166,19 @@ class SuratController2 extends Controller
     $pdf = Pdf::loadView($layout,['surat'=>$surat,'tanggal'=>$tanggal,'rw'=>$rw])->setPaper('a4', 'potrait');;
     $nama = $surat->kode.' '.$surat->nama.'.pdf';
       return $pdf->download($nama);
+  }
+  public function test(){
+        $details = [
+          'title' => 'Pengajuan Surat Baru',
+          'nama' => '$user->nama',
+          'nik' => '$user->nik',
+          'jenis' => '$jenis->nama',
+          'rt' => 'rt'
+      ];
+  
+      Mail::send('mail.notifMail', ['name' => '$name', 'email' => '$email', 'title' => '$title', 'details' => $details], function ($message) {
+        $message->to('your.email@gmail.com')->subject('Subject of the message!');
+    });
+        dd('kirim email');
   }
 }

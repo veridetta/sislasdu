@@ -14,25 +14,17 @@
       <div class="card mb-0">
         <div class="card-body">
           <div class="brand-logo">
-            <div class="avatar">
+            <div class="avatar bg-white">
               <img
                 src="{{asset('images/logo/logo.png')}}"
                 alt="avatar"
-                width="60"
-                height="60"
-              />
-            </div>
-            <div class="avatar">
-              <img
-                src="{{asset('images/logo/spsi.png')}}"
-                alt="avatar"
-                width="60"
-                height="60"
+                width="130"
+                height="80"
               />
             </div>
           </div>
           <a href="#" class="brand-logo">
-            <h2 class="brand-text text-primary ms-1">SERIKAT SPSI</h2>
+            <h2 class="brand-text text-warning ms-1">SISLASDU</h2>
           </a>
 
           <h4 class="card-title mb-1">Forgot Password? 🔒</h4>
@@ -57,7 +49,7 @@
                 </span>
               @enderror
             </div>
-            <button type="submit" class="btn btn-primary w-100" tabindex="2">Send reset link</button>
+            <button type="submit" class="btn btn-warning w-100" tabindex="2">Send reset link</button>
           </form>
 
           <p class="text-center mt-2">

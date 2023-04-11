@@ -46,6 +46,7 @@
                     <th>No</th>
                     <th>NIK</th>
                     <th>Nama</th>
+                    <th>Email</th>
                     <th>Tempat Lahir</th>
                     <th>Tanggal Lahir</th>
                     <th>Kelamin</th>
@@ -119,6 +120,22 @@
                         value="{{Auth::user()->name??old('nama')}}"
                       />
                       @error('nama')
+                          <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label" for="basic-icon-default-email">Email </label>
+                      <input
+                        type="email"
+                        id="basic-icon-default-email"
+                        class="form-control dt-email"
+                        name="email"
+                        placeholder="Ulvi S"
+                        value="{{Auth::user()->email??old('email')}}"
+                      />
+                      @error('email')
                           <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                           </span>
@@ -430,6 +447,7 @@ $(function () {
           { data: '' },
           { data: 'nik' },
           { data: 'nama' },
+          { data: 'email' },
           { data: 'tempat_lahir' },
           { data: 'tanggal_lahir' },
           { data: 'jk' },
@@ -467,7 +485,7 @@ $(function () {
             title: 'Aksi',
             orderable: false,
             render: function (data, type, full, meta) {
-              return '<div class="text-center"><a class="a_edit btn-sm btn btn-primary" pdf="'+full.id+'">Ubah</a></div>';
+              return '<div class="text-center"><a class="a_edit btn-sm btn btn-primary" pdf="'+full.id_users+'">Ubah</a></div>';
             }
           }@endif
         ],
@@ -497,6 +515,8 @@ $(function () {
             var id_users=data.data.id+'&&'+data.data.kode+'&&'+data.data.id_users;
             $("#basic-icon-default-nik").val(data.data.nik).change();
             $("#basic-icon-default-nama").val(data.data.nama).change();
+            $("#basic-icon-default-email").val(data.data.email).change();
+            $("#basic-icon-default-tanggal_lahir").val(data.data.tanggal_lahir).change();
             $("#basic-icon-default-tempat_lahir").val(data.data.tempat_lahir).change();
             $("#basic-icon-default-jk").val(data.data.jk).change();
             $("#basic-icon-default-goldar").val(data.data.goldar).change();

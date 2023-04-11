@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisSurat;
+use App\Models\Rt;
 use App\Models\Rw;
 use App\Models\surat;
 use App\Models\User;
@@ -33,7 +34,15 @@ class SuratController extends Controller
   
   public function surat_data()
   {
-    $user=surat::orderBy('id')->select("surats.*",DB::raw('DATE_FORMAT(surats.created_at, "%Y-%m-%d") as tanggal'))->get();
+    if(auth()->user()->role=='rt') {
+      $rtrw = Rt::where('id_users','=',auth()->user()->id)->first();
+      $user=surat::orderBy('id')->select("surats.*",DB::raw('DATE_FORMAT(surats.created_at, "%Y-%m-%d") as tanggal'))->join('wargas','wargas.id_users','=','surats.id_users')->select('surats.*')->where('wargas.rt','=',$rtrw->rt)->get();
+    }else if(auth()->user()->role=='rw'){
+      $rtrw = Rw::where('id_users','=',auth()->user()->id)->first();
+      $user=surat::orderBy('id')->select("surats.*",DB::raw('DATE_FORMAT(surats.created_at, "%Y-%m-%d") as tanggal'))->join('wargas','wargas.id_users','=','surats.id_users')->select('surats.*')->where('wargas.rw','like','%/'.$rtrw->rw)->get();
+    }else{
+      $user=surat::orderBy('id')->select("surats.*",DB::raw('DATE_FORMAT(surats.created_at, "%Y-%m-%d") as tanggal'))->get();
+    }
     return ['data' => $user];
   }
   
@@ -61,6 +70,9 @@ class SuratController extends Controller
             $layout='layouts.warga.cetak_janda';
             break;
         case 'SK-PRT':
+            $layout='layouts.warga.cetak_pengantar';
+            break;
+        case 'SK-CK':
             $layout='layouts.warga.cetak_pengantar';
             break;
         default:
@@ -108,4 +120,26 @@ class SuratController extends Controller
           }
           return redirect()->route('surat-rtrw');
     }
+    public function update_admin(Request $request){
+      if(Auth::user()->role=='admin'){
+          $stat='2';
+      }
+      $user = surat::updateOrCreate([
+          'id' => $request->id
+      ], [
+          'status' => $stat
+      ]);
+      if($request->id){
+          if($user){
+            session()->flash('success', 'Data Berhasil Disetujui.');
+            //redirect
+          }
+        }else{
+          if($user){
+            session()->flash('success', 'Data Gagal Disetujui.');
+            //redirect
+          }
+        }
+        return redirect()->route('surat-admin');
+  }
 }

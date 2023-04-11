@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Aparat Desa')
+@section('title', 'Perangkat Desa')
 
 @section('vendor-style')
   <!-- vendor css files -->
@@ -21,7 +21,7 @@
       <div class="col-lg-12 col-sm-12 col-12">
         @if(auth()->user()->role=='admin')
         <button id="btn-add" class="dt-button add-new btn btn-warning mb-2"  
-        aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#backdrop"><span>Tambah Aparat Desa</span></button>
+        aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#backdrop"><span>Tambah Perangkat Desa</span></button>
         @endif
         <div class="card">
 
@@ -35,7 +35,7 @@
                       </div>
                 </div>
                 <div class="col-lg-11 col-10 my-auto">
-                    <p class="h4 card-text text-white">Daftar Aparat Desa</p>
+                    <p class="h4 card-text text-white">Daftar Perangkat Desa</p>
                 </div>
             </div>
           </div>
@@ -48,7 +48,6 @@
                     <th>Nama</th>
                     <th>NIK</th>
                     <th>Jabatan</th>
-                    <th>Role</th>
                     <th>Role</th>
                   </tr>
                 </thead>
@@ -110,47 +109,16 @@
                     @enderror
                 </div>
                 <div class="mb-1">
-                  <label class="form-label" for="basic-icon-default-password">Password</label>
+                  <label class="form-label" for="basic-icon-default-jabatan">Jabatan</label>
                   <input
                     type="text"
-                    id="basic-icon-default-password"
-                    class="form-control dt-password"
-                    name="password"
-                    placeholder="password"
-                    value="{{old('password')}}"
+                    id="basic-icon-default-jabatan"
+                    class="form-control dt-jabatan"
+                    name="jabatan"
+                    placeholder="Keuangan"
+                    value="{{old('jabatan')}}"
                   />
-                  @error('password')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                </div>
-                <div class="mb-1">
-                  <label class="form-label" for="basic-icon-default-jabatan">Jabatan</label>
-                  <select class="form-control dt-jabatan" id="basic-icon-default-jabatan" name="jabatan" value="{{old('jabatan')}}">
-                    <option>Kades</option>
-                    <option>RT</option>
-                    <option>RW</option>
-                    <option>Staff</option>
-                    <option>Kepengurusan lain</option>
-                  </select>
                   @error('jabatan')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                </div>
-                <div class="mb-1">
-                  <label class="form-label" for="basic-icon-default-role">Role</label>
-                  <select class="form-control dt-role" id="basic-icon-default-role" name="role" value="{{old('role')}}">
-                    <option value="admin">Admin</option>
-                    <option value="admin">Staff</option>
-                    <option value="admin">Kepengurusan Lain</option>
-                    <option value="kades">Kepala Desa</option>
-                    <option value="rt">RT</option>
-                    <option value="rw">RW</option>
-                  </select>
-                  @error('role')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                       </span>
@@ -195,10 +163,9 @@ $(function () {
         ajax: "{{route('aparat-data-admin')}}",
         columns: [
           { data: '' },
-          { data: 'name' },
+          { data: 'nama' },
           { data: 'nik' },
           { data: 'jabatan' },
-          { data: 'role' },
           @if(auth()->user()->role=='admin'){ data: '' }@endif
         ],
         columnDefs: [
@@ -249,7 +216,7 @@ $(function () {
               //if request if made successfully then the response represent the data
               console.log(data);
             var id_users=data.data.id+'&&'+data.data.nik+'&&'+data.data.name;
-            $("#basic-icon-default-name").val(data.data.name).change();
+            $("#basic-icon-default-name").val(data.data.nama).change();
             $("#basic-icon-default-nik").val(data.data.nik).change();
             $("#id_aparat").val(data.data.id).change();
             $("#basic-icon-default-jabatan").val(data.data.jabatan).change();

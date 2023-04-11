@@ -41,7 +41,7 @@ class WargaController2 extends Controller
     $data=Warga::where('id_users','=',Auth::user()->id)->first();
     $status=Warga::where('id_users','=',Auth::user()->id)->count();
     $rtrws=Rtrw::get();
-    $kar = User::join('wargas','wargas.id_users','=','users.id')->orderBy('users.name')->get();
+    $kar = User::join('wargas','wargas.id_users','=','users.id')->where('users.id','=',Auth::user()->id)->orderBy('users.name')->get();
     $val = array('primary','secondary','warning','danger','info');
     return view('layouts/warga/data', ['val'=>$val,'kars'=>$kar,'data'=>$data,'rtrws'=>$rtrws,'pageConfigs' => $pageConfigs, 'breadcrumbs' => $breadcrumbs,'status'=>$status]);
   }
@@ -58,6 +58,7 @@ class WargaController2 extends Controller
       'pendidikan' => 'required',
       'st_nikah' => 'required',
       'st_tinggal' => 'required',
+      'email' => 'required',
       'st_warga' => 'required',
       'rtrw' => 'required',
       'desa' => 'required',
@@ -72,6 +73,12 @@ class WargaController2 extends Controller
       return redirect()->route('warga-warga')->withErrors($validator)
       ->withInput();;
     }
+    $pengguna = User::updateOrCreate([
+      'id' => $request->id_users
+    ], [
+      'name' => $request->nama,
+      'email' => $request->email,
+      'nik' => $request->nik]);
     $user = Warga::updateOrCreate([
         'id' => $request->id
     ], [
@@ -110,7 +117,7 @@ class WargaController2 extends Controller
   }
   public function warga_data()
   {
-    $user=User::join('wargas','wargas.id_users','=','users.id')->where('wargas.id_users','=',Auth::user()->id)->orderBy('users.name')->get();
+    $user=User::join('wargas','wargas.id_users','=','users.id')->where('users.id','=',Auth::user()->id)->orderBy('users.name')->get();
     return ['data' => $user];
   }
   public function warga_data_single(Request $request)

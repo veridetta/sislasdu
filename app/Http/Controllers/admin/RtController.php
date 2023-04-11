@@ -30,7 +30,8 @@ class RtController extends Controller
       'nama' => 'required',
       'nik' => 'required',
       'password' => 'required',
-      'rt' => 'required'
+      'rt' => 'required',
+      'email' => 'required'
     ]);
     
     if ($validator->fails()) {
@@ -44,6 +45,7 @@ class RtController extends Controller
     ], [
         'name' => $request->nama,
         'nik' => $request->nik,
+        'email' => $request->email,
         'password' => Hash::make($request->password),
         'jabatan' => 'rt',
         'role' => 'rt'
@@ -54,7 +56,8 @@ class RtController extends Controller
         'id_users'=>$user->id,
         'name' => $request->nama,
         'rt' => $request->rt,
-        'rw' => $request->rt
+        'rw' => $request->rt,
+        'email' => $request->email
     ]);
     if($request->id){
       if($user){

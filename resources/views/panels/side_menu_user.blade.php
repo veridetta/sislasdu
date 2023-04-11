@@ -19,7 +19,7 @@
         <li class="{{(request()->is('admin/m/aparat'))? 'active' : ''}}">
             <a href="{{route('aparat-admin')}}" class="d-flex align-items-center" target="_self">
                 <i data-feather="briefcase"></i>
-                <span class="menu-title text-truncate">Aparat Desa</span>
+                <span class="menu-title text-truncate">Perangkat Desa</span>
             </a>
         </li>
         <li class="{{(request()->is('admin/m/rtrw'))? 'active' : ''}}">
@@ -107,6 +107,12 @@
         <span class="menu-title text-truncate">Dashboard</span>
     </a>
 </li>
+<li class="nav-item {{(request()->is('admin/l/surat'))? 'active' : ''}}">
+    <a href="{{route('surat-admin')}}" class="d-flex align-items-center" target="_self">
+        <i data-feather="mail"></i>
+        <span class="menu-title text-truncate">Layanan Surat</span>
+    </a>
+</li>
 <li class="nav-item has-sub {{(request()->is('kades/m/*'))? ' open' : ''}}">
     <a href="#" class="d-flex align-items-center" target="_self">
         <i data-feather="briefcase"></i>
@@ -116,7 +122,7 @@
         <li class="{{(request()->is('kades/m/aparat'))? 'active' : ''}}">
             <a href="{{route('aparat-kades')}}" class="d-flex align-items-center" target="_self">
                 <i data-feather="briefcase"></i>
-                <span class="menu-title text-truncate">Aparat Desa</span>
+                <span class="menu-title text-truncate">Perangkat Desa</span>
             </a>
         </li>
         <li class="{{(request()->is('kades/m/rtrw'))? 'active' : ''}}">

@@ -45,6 +45,8 @@ Route::get('/', [Controller::class, 'dashboard'])->name('dashboard-home');
 Route::get('/log', [Controller::class, 'home'])->name('dashboard-login');
 Route::get('/reg', [Controller::class, 'register'])->name('dashboard-register');
 Route::get('/informasi', [Controller::class, 'info'])->name('dashboard-informasi');
+Route::get('/email', [SuratController2::class, 'test'])->name('email');
+
 
 /* Route Pages */
 Route::get('/error', [MiscellaneousController::class, 'error'])->name('error');
@@ -99,6 +101,7 @@ Route::group(['middleware' => ['auth']], function() {
         });
         Route::group(['prefix' => 'l'], function () {
             Route::get('surat', [SuratController::class, 'surat'])->name('surat-admin');
+            Route::get('surat_update/{id}', [SuratController::class, 'update_admin'])->name('surat_update-admin');
             Route::get('surat_data', [SuratController::class, 'surat_data'])->name('surat-data-admin');
             Route::get('cetak/{id}', [SuratController::class, 'cetak'])->name('surat-cetak-admin');
 

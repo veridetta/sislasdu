@@ -44,6 +44,7 @@
                     <th>No</th>
                     <th>NIK</th>
                     <th>Nama</th>
+                    <th>Email</th>
                     <th>Tempat Lahir</th>
                     <th>Tanggal Lahir</th>
                     <th>Kelamin</th>
@@ -103,6 +104,7 @@ $(function () {
           { data: '' },
           { data: 'nik' },
           { data: 'nama' },
+          { data: 'email' },
           { data: 'tempat_lahir' },
           { data: 'tanggal_lahir' },
           { data: 'jk' },

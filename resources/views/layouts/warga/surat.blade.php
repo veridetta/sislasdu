@@ -335,13 +335,21 @@ $(function () {
             orderable: false,
             render: function (data, type, full, meta) {
               var ret="";
+              var kode = full.id_jenissurat;
               var $status_number = full['status'];
-              var $status = {
-                "1": { title: 'Pengajuan Ketua RT', class: 'badge-light-primary' },
-                "2": { title: 'Pengajuan Ketua RW', class: ' badge-light-primary' },
-                "3": { title: 'Pengajuan Kades', class: ' badge-light-primary' },
-                "4": { title: 'Disetujui', class: ' badge-light-success' },
-              };
+              if(kode=="SK-CK"){
+                var $status = {
+                  "1": { title: 'Pengajuan Ketua RT', class: 'badge-light-primary' },
+                  "2": { title: 'Pengajuan Ketua RW', class: ' badge-light-primary' },
+                  "3": { title: 'Pengajuan Kades', class: ' badge-light-primary' },
+                  "4": { title: 'Disetujui', class: ' badge-light-success' },
+                };
+              }else{
+                var $status = {
+                  "1": { title: 'Pengajuan Kades', class: ' badge-light-primary' },
+                  "2": { title: 'Disetujui', class: ' badge-light-success' },
+                };
+              }
               if (typeof $status[$status_number] === 'undefined') {
                 return data;
               }
@@ -352,7 +360,7 @@ $(function () {
                 '</span>';
                 ret="<span class='badge badge-primary'>Menunggu Persetujuan Ketua RT</span>";
                 print="<a class='mt-1 btn-sm a_delete btn btn-success disabled' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/warga/l/cetak/"+full.id+"''>"+
-                feather.icons['donwload'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
+                feather.icons['download'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
               
               return ss+print;
             }

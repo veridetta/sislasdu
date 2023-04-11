@@ -51,6 +51,17 @@
                   @enderror
                 </div>
                 <div class="mb-1">
+                  <label for="register-email" class="form-label">Email</label>
+                  <input type="email" class="form-control @error('email') is-invalid @enderror" id="register-email"
+                    name="email" placeholder="Ulvi" aria-describedby="register-name" tabindex="2"
+                    value="{{ old('email') }}" />
+                  @error('email')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+                <div class="mb-1">
                   <label for="register-password" class="form-label">Password</label>
     
                   <div class="input-group input-group-merge form-password-toggle @error('password') is-invalid @enderror">

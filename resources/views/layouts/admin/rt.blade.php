@@ -47,6 +47,7 @@
                     <th>No</th>
                     <th>RT/RW</th>
                     <th>Nama Ketua RT</th>
+                    <th>Email</th>
                     <th>NIK</th>
                     <th>NIK</th>
                   </tr>
@@ -101,6 +102,22 @@
                     value="{{old('nama')}}"
                   />
                   @error('nama')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="basic-icon-default-email">Email</label>
+                  <input
+                    type="email"
+                    id="basic-icon-default-email"
+                    class="form-control dt-email"
+                    name="email"
+                    placeholder="xx@gmail.com"
+                    value="{{old('email')}}"
+                  />
+                  @error('email')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                       </span>
@@ -179,6 +196,7 @@ $(function () {
           { data: '' },
           { data: 'rt' },
           { data: 'name' },
+          { data: 'email' },
           { data: 'nik' },
           
           @if(auth()->user()->role=='admin'){ data: '' }@endif
@@ -234,6 +252,7 @@ $(function () {
             $("#basic-icon-default-rt").val(data.data.rt).change();
             $("#basic-icon-default-nama").val(data.data.name).change();
             $("#basic-icon-default-nik").val(data.data.nik).change();
+            $("#basic-icon-default-email").val(data.data.email).change();
             $("#id_rt").val(data.data.id).change();
             $("#id_users").val(data.data.id_users).change();
             $("#btn-add").click();

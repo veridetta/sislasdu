@@ -14,6 +14,7 @@ class Rt extends Model
         'rt',
         'rw',
         'name',
-        'id_users'
+        'id_users',
+        'email'
     ];
 }

@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Aparat Desa')
+@section('title', 'Perangkat Desa')
 
 @section('vendor-style')
   <!-- vendor css files -->
@@ -31,7 +31,7 @@
                       </div>
                 </div>
                 <div class="col-lg-11 col-10 my-auto">
-                    <p class="h4 card-text text-white">Daftar Aparat Desa</p>
+                    <p class="h4 card-text text-white">Daftar Perangkat Desa</p>
                 </div>
             </div>
           </div>
@@ -44,7 +44,6 @@
                     <th>Nama</th>
                     <th>NIK</th>
                     <th>Jabatan</th>
-                    <th>Role</th>
                   </tr>
                 </thead>
               </table>
@@ -86,10 +85,9 @@ $(function () {
         ajax: "{{route('aparat-data-kades')}}",
         columns: [
           { data: '' },
-          { data: 'name' },
+          { data: 'nama' },
           { data: 'nik' },
           { data: 'jabatan' },
-          { data: 'role' },
           @if(auth()->user()->role=='admin'){ data: '' }@endif
         ],
         columnDefs: [

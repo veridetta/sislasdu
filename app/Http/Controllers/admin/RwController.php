@@ -31,7 +31,8 @@ class RwController extends Controller
       'nama' => 'required',
       'nik' => 'required',
       'password' => 'required',
-      'rw' => 'required'
+      'rw' => 'required',
+      'email' => 'required'
     ]);
     
     if ($validator->fails()) {
@@ -47,6 +48,7 @@ class RwController extends Controller
         'nik' => $request->nik,
         'password' => Hash::make($request->password),
         'jabatan' => 'rw',
+        'email' => $request->email,
         'role' => 'rw'
     ]);
     $bio = Rw::updateOrCreate([
@@ -54,7 +56,8 @@ class RwController extends Controller
     ], [
         'id_users'=>$user->id,
         'name' => $request->nama,
-        'rw' => $request->rw
+        'rw' => $request->rw,
+        'email' => $request->email
     ]);
     if($request->id){
       if($user){

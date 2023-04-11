@@ -128,14 +128,50 @@ $(function () {
             render: function (data, type, full, meta) {
               var ret="";
               var $status_number = full['status'];
-              var $status = {
-                "1": { title: 'Pengajuan Ketua RT', class: 'badge-light-primary' },
-                "2": { title: 'Pengajuan Ketua RW', class: ' badge-light-primary' },
-                "3": { title: 'Pengajuan Kades', class: ' badge-light-primary' },
-                "4": { title: 'Disetujui', class: ' badge-light-success' },
-              };
+              var kode = full.id_jenissurat;
+              var role='{{auth()->user()->role}}';
+              if(kode=="SK-CK"){
+                var $status = {
+                  "1": { title: 'Pengajuan Ketua RT', class: 'badge-light-primary' },
+                  "2": { title: 'Pengajuan Ketua RW', class: ' badge-light-primary' },
+                  "3": { title: 'Pengajuan Kades', class: ' badge-light-primary' },
+                  "4": { title: 'Disetujui', class: ' badge-light-success' },
+                };
+              }else{
+                var $status = {
+                  "1": { title: 'Pengajuan Kades', class: 'badge-light-primary', aksi:'Setujui Kades' },
+                  "2": { title: 'Disetujui', class: ' badge-light-success' },
+                };
+              }
               if (typeof $status[$status_number] === 'undefined') {
                 return data;
+              }
+              var btn="<a class='mt-1 btn-sm a_aksi btn btn-primary "+aksi+"' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/admin/l/surat_update/"+full.id+"''>"+
+                feather.icons['check'].toSvg({ class: 'font-small-4 text-white' }) + " Setujui</a>";
+                print="<a class='mt-1 btn-sm a_delete btn btn-success' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/admin/l/cetak/"+full.id+"''>"+
+                feather.icons['download'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
+              if(kode=="SK-CK"){
+                if($status_number!=='3'){
+                  if(role=='admin'){
+                    var aksi="disabled";
+                    var btn="";
+                  }
+                }
+                if($status_number=='4'){
+                  btn="";
+                  print="<a class='mt-1 btn-sm a_delete btn btn-success' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/admin/l/cetak/"+full.id+"''>"+
+                feather.icons['download'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
+                }else{
+                  print="";
+                }
+              }else{
+                if($status_number=='2'){
+                  btn="";
+                  print="<a class='mt-1 btn-sm a_delete btn btn-success' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/admin/l/cetak/"+full.id+"''>"+
+                feather.icons['download'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
+                }else{
+                  print="";
+                }
               }
               var ss='<span class="badge rounded-pill block-badge ' +
                 $status[$status_number].class +
@@ -143,9 +179,7 @@ $(function () {
                 $status[$status_number].title +
                 '</span>';
                 ret="<span class='badge badge-primary'>Menunggu Persetujuan Ketua RT</span>";
-                print="<a class='mt-1 btn-sm a_delete btn btn-success' pdf='"+full.id+"' href='//{{request()->getHttpHost()}}/admin/l/cetak/"+full.id+"''>"+
-                feather.icons['download'].toSvg({ class: 'font-small-4 text-white' }) + " Unduh</a>";
-              return ss+print;
+              return btn+ss+print;
             }
           },
             {

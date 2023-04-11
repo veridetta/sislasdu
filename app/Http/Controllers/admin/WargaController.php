@@ -37,6 +37,7 @@ class WargaController extends Controller
       'pendidikan' => 'required',
       'st_nikah' => 'required',
       'st_tinggal' => 'required',
+      'email' => 'required',
       'st_warga' => 'required',
       'rtrw' => 'required',
       'desa' => 'required',
@@ -56,6 +57,7 @@ class WargaController extends Controller
     ], [
         'name' => $request->nama,
         'nik' => $request->nik,
+        'email' => $request->email,
         'password' => Hash::make($request->password),
         'jabatan' => 'warga',
         'role' => 'warga'
@@ -98,7 +100,7 @@ class WargaController extends Controller
   }
   public function warga_data()
   {
-    $user=User::join('wargas','wargas.id_users','=','users.id')->orderBy('users.name')->get();
+    $user=User::join('wargas','wargas.id_users','=','users.id')->orderBy('users.name')->where('users.role','=','warga')->get();
     return ['data' => $user];
   }
   public function warga_data_single(Request $request)

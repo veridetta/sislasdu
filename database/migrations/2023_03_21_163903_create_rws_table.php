@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('id_users');
             $table->string('rw');
             $table->string('name');
+            $table->string('email');
             $table->timestamps();
         });
     }

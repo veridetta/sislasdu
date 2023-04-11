@@ -26,7 +26,7 @@ class WargaController extends Controller
  
   public function warga_data()
   {
-    $user=User::join('wargas','wargas.id_users','=','users.id')->orderBy('users.name')->get();
+    $user=User::join('wargas','wargas.id_users','=','users.id')->orderBy('users.name')->where('users.role','=','warga')->get();
     return ['data' => $user];
   }
 
